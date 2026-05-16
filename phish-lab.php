@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>(function(){var t=localStorage.getItem("nexusTheme");if(t){document.documentElement.setAttribute("data-theme",t)}})()</script>
+    <meta name="description" content="Phishing awareness simulation and training lab for the Nexus Red Team Portal.">
+    <title>Nexus Red Team Portal | Phish-Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="phish-lab">
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="index.php">
+                <span class="brand-mark">NR</span>
+                <span class="brand-copy"><strong>Nexus Red Team</strong><span>Security Operations</span></span>
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="siteNav">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="site-nav" id="siteNav" aria-label="Primary">
+                <a href="index.php">Home</a>
+                <a href="about.php">About</a>
+                <a href="phish-lab.php">Phish-Lab</a>
+                <a href="applications.php">Applications</a>
+                <a href="guestbook.php">Guest Book</a>
+                <a href="contact.php">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <p class="eyebrow">Phish-Lab</p>
+                <h1>Spot the threat before it lands.</h1>
+                <p class="lead" style="max-width:640px">Review the message below, identify what makes it suspicious, and submit your report. Every response is logged to the Admin console for follow-up.</p>
+            </div>
+        </section>
+
+        <section class="section section-alt">
+            <div class="container phish-lab-shell">
+                <section class="phish-scenario-panel">
+                    <div class="phish-panel-head">
+                        <div>
+                            <p class="panel-label">Simulation Scenario</p>
+                            <h2>Invoice diversion attempt</h2>
+                            <p>Review the message below the way an analyst would: verify the sender, inspect the language, and decide how you would report it before interacting.</p>
+                        </div>
+                        <div class="phish-signal-row" aria-label="Scenario summary">
+                            <span class="phish-signal">External sender</span>
+                            <span class="phish-signal">Payment request</span>
+                            <span class="phish-signal">High urgency</span>
+                            <span class="phish-signal">Link-driven action</span>
+                        </div>
+                    </div>
+                    <div class="email-preview phish-email-stage">
+                        <div class="email-chrome">
+                            <div class="email-header">
+                                <div class="email-from">
+                                    <span class="email-avatar">AP</span>
+                                    <div>
+                                        <strong>Accounts Payable &lt;ap-urgent@acc0unts-payab1e.net&gt;</strong>
+                                        <span class="email-meta">to: you &middot; Today 9:14 AM</span>
+                                    </div>
+                                </div>
+                                <span class="email-flag">External</span>
+                            </div>
+                            <div class="email-body">
+                                <p><strong>Subject: URGENT - Invoice #INV-20948 requires immediate payment</strong></p>
+                                <p>Hi Team,</p>
+                                <p>Our records indicate that Invoice #INV-20948 ($4,280.00) is past due. Failure to process payment within 24 hours will result in account suspension and a late penalty fee.</p>
+                                <p>Please verify and submit payment using the secure link below:</p>
+                                <a class="email-cta" href="#" data-simulate-click>Review &amp; Pay Invoice Now</a>
+                                <p class="email-fine-print">This email was sent from an automated system. Do not reply directly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="phish-sidebar">
+                    <div class="form-card phish-sidebar-card">
+                        <p class="panel-label">Awareness Report</p>
+                        <h2>Report This Message</h2>
+                        <p>If you identified this as phishing, capture the indicators you noticed so the response can be logged and reviewed.</p>
+                        <form class="form-grid" method="POST" action="phish-lab.php">
+                            <div class="form-field"><label for="user">Your Name</label><input id="user" name="user" type="text" placeholder="Jordan Lee"></div>
+                            <div class="form-field"><label for="department">Department</label><input id="department" name="department" type="text" placeholder="Finance"></div>
+                            <div class="form-field full"><label for="notes">What looked suspicious?</label><textarea id="notes" name="notes" placeholder="Describe what you noticed: the sender domain, the urgency, the greeting, or any other detail that raised a flag."></textarea></div>
+                            <div class="form-field full"><button class="button button-primary" type="submit" style="width:100%;justify-content:center">Submit Awareness Report</button></div>
+                        </form>
+                        <div>
+                        <?php
+                            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                $user = isset($_POST['user']) ? htmlspecialchars($_POST['user']) : 'Anonymous';
+                                $dept = isset($_POST['department']) ? htmlspecialchars($_POST['department']) : '';
+                                $notes = isset($_POST['notes']) ? htmlspecialchars($_POST['notes']) : '';
+                                echo '<div class="message-box success"><strong>Report submitted</strong><span>Thanks, ' . $user . '. The awareness report was recorded.</span></div>';
+                                // Note: In production this should log to a database or send to Admin logs.
+                            }
+                        ?>
+                        </div>
+                    </div>
+
+                    <section class="phish-sidebar-card phish-playbook">
+                        <p class="panel-label">Response Checklist</p>
+                        <h2>What to confirm before you trust it.</h2>
+                        <p class="phish-playbook-intro">Investigate first, report second, and keep the message visible while you work.</p>
+                        <div class="phish-response-guide">
+                            <div class="phish-guide-step">
+                                <span class="phish-step-num">01</span>
+                                <div>
+                                    <strong>Check the sender</strong>
+                                    <span>Look closely at the domain and display name. Mismatched or misspelled domains are a common phishing signal.</span>
+                                </div>
+                            </div>
+                            <div class="phish-guide-step">
+                                <span class="phish-step-num">02</span>
+                                <div>
+                                    <strong>Assess the pressure</strong>
+                                    <span>Urgent deadlines and penalty language are designed to rush the reader past verification.</span>
+                                </div>
+                            </div>
+                            <div class="phish-guide-step">
+                                <span class="phish-step-num">03</span>
+                                <div>
+                                    <strong>Do not follow the link</strong>
+                                    <span>Navigate directly to the known system or finance portal instead of clicking from the email.</span>
+                                </div>
+                            </div>
+                            <div class="phish-guide-step">
+                                <span class="phish-step-num">04</span>
+                                <div>
+                                    <strong>Report and log</strong>
+                                    <span>Submit the report so the pattern is captured in Admin Logs for review and follow-up.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <strong>Nexus Red Team</strong>
+                <p>Security operations dashboard for tools, findings, and awareness.</p>
+                <address>1200 Market Street, Suite 400<br>New York, NY 10018</address>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <span class="footer-column-title">Pages</span>
+                    <a href="index.php">Home</a>
+                    <a href="about.php">About</a>
+                    <a href="contact.php">Contact</a>
+                    <a href="applications.php">Applications</a>
+                    <a href="guestbook.php">Guest Book</a>
+                </div>
+                <div class="footer-column">
+                    <span class="footer-column-title">Operations</span>
+                    <a href="arsenal.php">Arsenal</a>
+                    <a href="phish-lab.php">Phish-Lab</a>
+                    <a href="admin-logs.php">Admin Logs</a>
+                </div>
+                <div class="footer-column">
+                    <span class="footer-column-title">Utilities</span>
+                    <a href="apps/miles-per-gallon.html">Calculator</a>
+                    <a href="apps/image-slider.html">Gallery</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container"><p class="footer-copyright">&copy; 2026 Nexus Red Team. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
